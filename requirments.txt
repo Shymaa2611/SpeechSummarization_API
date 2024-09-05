@@ -1,0 +1,8 @@
+fpdf
+pptx
+docx
+pydub
+io
+fastapi 
+uvicorn
+jinja2
