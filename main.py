@@ -61,103 +61,99 @@ class Speech2TextSummarization():
        summarize=self.ts(text)
        return summarize
    
+import tempfile
+
 class OutputFormat():
-    def pdf(self,summary):
-       pdf = FPDF()
-       pdf.add_page()
-       pdf.set_font("Arial", size=12)
-       pdf.multi_cell(0, 10, summary)
-       pdf_output = "output.pdf"  
-       pdf.output(pdf_output)
-       print(f"PDF generated: {pdf_output}")
-
-    def word(self,summary):
-      doc = Document()
-      doc.add_paragraph(summary)
-      output_file="output.doc"
-      doc.save(output_file)
-      print(f"Word document generated: {output_file}")
-
-    def text(self,summary):
-      file_path="output.txt"
-      with open(file_path, 'w') as file:
-        file.write(summary)
-      print(f"Text has been written to {file_path}")
+    def pdf(self, summary, output_io):
+        # Create a temporary file to save the PDF
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_pdf:
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
+            pdf.multi_cell(0, 10, summary)
+            pdf.output(temp_pdf.name)
+            
+            # Read the PDF file into a BytesIO object
+            temp_pdf.seek(0)
+            output_io.write(temp_pdf.read())
     
-    def split_text(self,summary, max_length):
-      words = summary.split()
-      chunks = []
-      current_chunk = ""
-      for word in words:
-        if len(current_chunk) + len(word) + 1 > max_length:
+    def word(self, summary, output_io):
+        doc = Document()
+        doc.add_paragraph(summary)
+        doc.save(output_io)
+    
+    def text(self, summary, output_io):
+        output_io.write(summary.encode('utf-8'))
+    
+    def split_text(self, summary, max_length):
+        words = summary.split()
+        chunks = []
+        current_chunk = ""
+        for word in words:
+            if len(current_chunk) + len(word) + 1 > max_length:
+                chunks.append(current_chunk)
+                current_chunk = word
+            else:
+                if current_chunk:
+                    current_chunk += " "
+                current_chunk += word
+
+        if current_chunk:
             chunks.append(current_chunk)
-            current_chunk = word
-        else:
-            if current_chunk:
-                current_chunk += " "
-            current_chunk += word
-
-      if current_chunk:
-        chunks.append(current_chunk)
     
-      return chunks
-       
-       
-    def powerpoint(self,summary):
-      prs = Presentation()
-      file_path="output.pptx"
-      chunks =self.split_text(summary,20)
-      for i, chunk in enumerate(chunks):
-        slide_layout = prs.slide_layouts[1]  
-        slide = prs.slides.add_slide(slide_layout)
-        title = slide.shapes.title
-        title.text = f"Slide {i + 1}"
-        content = slide.placeholders[1]
-        content.text = chunk
+        return chunks
     
-      prs.save(file_path)
-      print(f"PowerPoint presentation saved to {file_path}")
+    def powerpoint(self, summary, output_io):
+        prs = Presentation()
+        chunks = self.split_text(summary, 20)
+        for i, chunk in enumerate(chunks):
+            slide_layout = prs.slide_layouts[1]  
+            slide = prs.slides.add_slide(slide_layout)
+            title = slide.shapes.title
+            title.text = f"Slide {i + 1}"
+            content = slide.placeholders[1]
+            content.text = chunk
+        prs.save(output_io)
 
        
 @app.get("/")
 async def main_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+
+
 @app.post("/upload/")
 async def upload_audio(file: UploadFile = File(...), format: str = Form(...)):
-    file_bytes = await file.read()
-    audio_file = BytesIO(file_bytes)
-    audio_path = 'temp_audio.mp3'
-    with open(audio_path, 'wb') as f:
-        f.write(file_bytes)
-    s2ts = Speech2TextSummarization()
-    summary = s2ts.speech2textsummarization(audio_path)
+    # Read the uploaded file
+    #file_bytes = await file.read()
+    #audio_file = BytesIO(file_bytes)
+
+    # Process the audio and generate the summary
+    #s2ts = Speech2TextSummarization()
+    #summary = s2ts.speech2textsummarization(audio_file)
+    summary="hello erver day"
+    # Initialize OutputFormat
     output_format = OutputFormat()
+
     if format == 'pdf':
-            pdf_io = BytesIO()
-            output_format.pdf(summary)
-            pdf_io.seek(0)
-            return StreamingResponse(pdf_io, media_type='application/pdf', headers={"Content-Disposition": "attachment; filename=summary.pdf"})
+        pdf_io = BytesIO()
+        output_format.pdf(summary, pdf_io)
+        pdf_io.seek(0)
+        return StreamingResponse(pdf_io, media_type='application/pdf', headers={"Content-Disposition": "attachment; filename=summary.pdf"})
     elif format == 'word':
-            doc_io = BytesIO()
-            output_format.word(summary)
-            doc_io.seek(0)
-            return StreamingResponse(doc_io, media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document', headers={"Content-Disposition": "attachment; filename=summary.docx"})     
+        doc_io = BytesIO()
+        output_format.word(summary, doc_io)
+        doc_io.seek(0)
+        return StreamingResponse(doc_io, media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document', headers={"Content-Disposition": "attachment; filename=summary.docx"})
     elif format == 'text':
-            text_io = BytesIO()
-            output_format.text(summary)
-            text_io.seek(0)
-            return StreamingResponse(text_io, media_type='text/plain', headers={"Content-Disposition": "attachment; filename=summary.txt"})
-        
+        text_io = BytesIO()
+        output_format.text(summary, text_io)
+        text_io.seek(0)
+        return StreamingResponse(text_io, media_type='text/plain', headers={"Content-Disposition": "attachment; filename=summary.txt"})
     elif format == 'pptx':
-            ppt_io = BytesIO()
-            output_format.powerpoint(summary)
-            ppt_io.seek(0)
-            return StreamingResponse(ppt_io, media_type='application/vnd.openxmlformats-officedocument.presentationml.presentation', headers={"Content-Disposition": "attachment; filename=summary.pptx"})
-        
+        ppt_io = BytesIO()
+        output_format.powerpoint(summary, ppt_io)
+        ppt_io.seek(0)
+        return StreamingResponse(ppt_io, media_type='application/vnd.openxmlformats-officedocument.presentationml.presentation', headers={"Content-Disposition": "attachment; filename=summary.pptx"})
     else:
-            return {"error": "Unsupported format"}
-
-
-
-
+        return {"error": "Unsupported format"}
