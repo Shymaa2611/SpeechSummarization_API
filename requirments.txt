@@ -1,8 +1,9 @@
 fpdf
-pptx
-docx
+python-docx
+python-pptx
 pydub
 io
 fastapi 
 uvicorn
 jinja2
+python-multipart
