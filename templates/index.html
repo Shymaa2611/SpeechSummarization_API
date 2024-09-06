@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Record Summarization</title>
+    <title>ذاكر</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,7 @@
         }
         .container {
             background: #fff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -59,8 +59,15 @@
     <div class="container">
         <h2>Record Summarization</h2>
         <form action="/upload/" method="post" enctype="multipart/form-data">
-            <label for="file">Audio File:</label>
-            <input type="file" id="file" name="file" required><br>
+            <label for="file_type">Choose File Type:</label>
+            <select id="file_type" name="file_type" required>
+                <option value="audio">Audio</option>
+                <option value="video">Video</option>
+            </select><br>
+
+            <label for="file">Upload File:</label>
+            <input type="file" id="file" name="file" accept="audio/*,video/*" required><br>
+            
             <label for="format">Choose Format:</label>
             <select id="format" name="format" required>
                 <option value="pdf">PDF</option>
@@ -68,6 +75,7 @@
                 <option value="text">Text</option>
                 <option value="pptx">PowerPoint</option>
             </select><br>
+            
             <input type="submit" value="Summarize">
         </form>
     </div>
