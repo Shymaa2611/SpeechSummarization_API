@@ -5,6 +5,8 @@
 ![Recod-Summarize](media/recordsummarize.png)
 ![Video-Summarize](media/VideoSummarization.png)
 
+## Project 
+![Project](media/project.png)
 ## Overview
 
 1. **Speech-to-Text (S2T)**: Convert spoken language from audio recordings or video files into text using OpenAI's Whisper model.
@@ -20,12 +22,14 @@
 - Additional dependencies (as listed in `requirements.txt`)
 
 ## Installation
-
 1. Clone this repository:
    ```bash
    git clone https://github.com/Shymaa2611/SpeechSummarization_API.git
    cd SpeechSummarization_API
+   pip install -r requirements.txt
+   uvicorn main:app --reload
    ```
 
-2. Install the required packages:
-   - pip install -r requirements.txt
+## Usage 
+ http://127.0.0.1:8000/
+
