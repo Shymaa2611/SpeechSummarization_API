@@ -83,5 +83,5 @@ if __name__=="main":
     audio_url=""
     text=speech_text(audio_url)
     print("speech2text",text)
-    textsuma=text_summarization(text)
-    print("summary",textsuma)
+    #textsuma=text_summarization(text)
+    #print("summary",textsuma)
