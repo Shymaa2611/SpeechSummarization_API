@@ -39,21 +39,19 @@ async def speech_summarization(audio_url:str):
 async def main_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+
 @app.post("/upload/")
 async def upload_audio(file: UploadFile = File(...), file_type: str = Form(...), format: str = Form(...)):
-    # Read the uploaded file
     file_bytes = await file.read()
     file_io = BytesIO(file_bytes)
-
-    # Process the file and generate the summary based on the file type
     if file_type == 'audio':
-        #s2ts = Speech2TextSummarization()
-        #summary = s2ts.speech2textsummarization(file_io)
-        summary="hello how are you"
+        s2ts = Speech2TextSummarization()
+        summary = s2ts.speech2textsummarization(file_io)
+        #summary="hello how are you"
     elif file_type == 'video':
-        #v2s = VideoSummarization()
-        #summary = v2s.Video_summarization(file_io)
-        summary="hello how are you"
+        v2s = VideoSummarization()
+        summary = v2s.Video_summarization(file_io)
+        #summary="hello how are you"
     else:
         return {"error": "Unsupported file type"}
     output_format = OutputFormat()
