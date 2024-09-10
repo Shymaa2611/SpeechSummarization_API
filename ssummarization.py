@@ -22,7 +22,7 @@ class Speech2Text:
 
     def load_model(self):
         # Load the ASR pipeline
-        pipe = pipeline("automatic-speech-recognition", model="checkpoint/whisperLarge_checkpoint")
+        pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3")
         return pipe
 
     def audiosegment_to_numpy(self, segment):
