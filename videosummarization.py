@@ -1,5 +1,5 @@
 from ssummarization import Speech2TextSummarization
-from moviepy.editor import VideoFileClip
+from moviepy.editor import VideoFileClip    
 
 
 class Video2audio():
@@ -9,6 +9,9 @@ class Video2audio():
        audio = video.audio
        audio.write_audiofile(output_audio_file_path)
        return output_audio_file_path
+    
+    def get_Audio_from_url(audio_url:str):
+        pass
     
     def video2audio(self,video_url:str):
         audio_url=self.extract_audio_from_video(video_url)
@@ -23,4 +26,4 @@ class VideoSummarization():
        summary=self.vs.speech2textsummarization(audio_url)
        return summary
 
-    
+

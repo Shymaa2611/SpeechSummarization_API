@@ -11,14 +11,17 @@ from videosummarization import VideoSummarization
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
        
-#@app.get('speech2text/')
-def speech_text(audio_url:str):
+@app.post('/speech2text/')
+async def speech_text(Audio_file: UploadFile = File(...)):
+    file_bytes = await Audio_file.read()
+    file_io = BytesIO(file_bytes)
     s2t=Speech2Text()
-    text=s2t.speech2text(audio_url)
+    text=s2t.speech2text(file_io)
     return text
 
-#@app.get('textsummarization/')
-def text_summarization(text:str):
+
+@app.get('textsummarization/')
+async def text_summarization(text:str):
     t2s=TextSummarization()
     summary=t2s.text2summarize(text)
     return summary
@@ -29,10 +32,12 @@ async def video_summarization(video_url:str):
     summary=v2s.Video_summarization(video_url)
     return summary
 
-@app.get('speechsummarization/')
-async def speech_summarization(audio_url:str):
+@app.post('speechsummarization/')
+async def speech_summarization(Audio_file: UploadFile = File(...)):
+    file_bytes = await Audio_file.read()
+    file_io = BytesIO(file_bytes)
     s2s=Speech2TextSummarization()
-    summary=s2s.speech2textsummarization(audio_url)
+    summary=s2s.speech2textsummarization(file_io)
     return summary
 
 @app.get("/")
@@ -79,9 +84,3 @@ async def upload_audio(file: UploadFile = File(...), file_type: str = Form(...),
         return {"error": "Unsupported format"}
 
 
-if __name__=="main":
-    audio_url=""
-    text=speech_text(audio_url)
-    print("speech2text",text)
-    #textsuma=text_summarization(text)
-    #print("summary",textsuma)
