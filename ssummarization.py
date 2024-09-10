@@ -46,8 +46,8 @@ class TextSummarization():
     def load_model(self):
        model = GPT2LMHeadModel.from_pretrained('checkpoint/summarize_checkpoint')
        tokenizer = GPT2Tokenizer.from_pretrained('checkpoint/summarize_checkpoint')
-       device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
-       model.to(device)
+       #device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
+       #model.to(device)
        return model,tokenizer
      
     def summarize_text(self,text, tokenizer, model, max_length=512, summary_length=200):
