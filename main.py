@@ -20,19 +20,19 @@ async def speech_text(Audio_file: UploadFile = File(...)):
     return text
 
 
-@app.get('textsummarization/')
+@app.get('/textsummarization/')
 async def text_summarization(text:str):
     t2s=TextSummarization()
     summary=t2s.text2summarize(text)
     return summary
 
-@app.get('videosummarization/')
+@app.get('/videosummarization/')
 async def video_summarization(video_url:str):
     v2s=VideoSummarization()
     summary=v2s.Video_summarization(video_url)
     return summary
 
-@app.post('speechsummarization/')
+@app.post('/speechsummarization/')
 async def speech_summarization(Audio_file: UploadFile = File(...)):
     file_bytes = await Audio_file.read()
     file_io = BytesIO(file_bytes)
