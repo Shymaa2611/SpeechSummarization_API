@@ -11,8 +11,8 @@ from videosummarization import VideoSummarization
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
        
-#@app.get('speech2text/')
-def speech_text(audio_url:str):
+@app.get('speech2text/')
+async def speech_text(audio_url:str):
     s2t=Speech2Text()
     text=s2t.speech2text(audio_url)
     return text
@@ -79,7 +79,3 @@ async def upload_audio(file: UploadFile = File(...), file_type: str = Form(...),
         return {"error": "Unsupported format"}
 
 
-if __name__=="main":
-    audio_url=""
-    text=speech_text()
-    print(text)
