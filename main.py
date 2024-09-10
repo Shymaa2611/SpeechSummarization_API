@@ -80,4 +80,6 @@ async def upload_audio(file: UploadFile = File(...), file_type: str = Form(...),
 
 
 if __name__=="main":
+    audio_url=""
     text=speech_text()
+    print(text)
