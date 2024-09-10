@@ -20,8 +20,8 @@ async def speech_text(Audio_file: UploadFile = File(...)):
     return text
 
 
-#@app.get('/textsummarization/')
-def text_summarization(text:str):
+@app.get('/textsummarization/')
+async def text_summarization(text:str):
     t2s=TextSummarization()
     summary=t2s.text2summarize(text)
     return summary
@@ -83,10 +83,4 @@ async def upload_audio(file: UploadFile = File(...), file_type: str = Form(...),
     else:
         return {"error": "Unsupported format"}
 
-
-if __name__=="main":
-    text="""Artificial Intelligence (AI) has rapidly evolved from a futuristic concept into a transformative force reshaping a multitude of industries. This technology, characterized by its ability to perform tasks that typically require human intelligence, such as learning, reasoning, and problem-solving, has far-reaching implications across sectors including healthcare, finance, transportation, and more.
-   In healthcare, AI has revolutionized diagnostics and patient care. Machine learning algorithms analyze vast amounts of medical data to identify patterns and predict outcomes with remarkable accuracy. For example, AI-powered imaging tools can detect early signs of diseases like cancer and diabetic retinopathy from medical scans. Additionally, AI-driven predictive analytics help in personalizing treatment plans and optimizing hospital operations, ultimately enhancing patient outcomes and reducing costs.
-"""
-    print(text_summarization(text))
 
