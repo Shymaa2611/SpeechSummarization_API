@@ -32,7 +32,7 @@
 
 Here’s a demonstration video:
 
-[Watch the video](media/project.gif)
+![Demo](media/project.gif)
 
 ## Requirements
 
