@@ -33,7 +33,13 @@
 
 Here’s a demonstration video:
 
-[![Watch the video](https://via.placeholder.com/560x315.png?text=Play+Video)](media/project.mp4)
+# Project
+
+## Introduction
+
+Here is a demonstration video of my project:
+
+<iframe width="560" height="315" src="media/project.mp4" frameborder="0" allowfullscreen></iframe>
 
 ## Requirements
 
