@@ -29,7 +29,7 @@
 ![Video-Summarize](media/VideoSummarization.png)
 
 ## Project 
-![Project](media/project.png)
+![Project](media/project.mp4)
 
 ## Requirements
 
