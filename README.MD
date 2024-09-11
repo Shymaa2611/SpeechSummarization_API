@@ -30,16 +30,9 @@
 
 ## Project 
 
-
 Here’s a demonstration video:
 
-# Project
-
-## Introduction
-
-Here is a demonstration video of my project:
-
-<iframe width="560" height="315" src="media/project.mp4" frameborder="0" allowfullscreen></iframe>
+[Watch the video](media/project.mp4)
 
 ## Requirements
 
