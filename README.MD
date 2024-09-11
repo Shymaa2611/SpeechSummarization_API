@@ -29,7 +29,8 @@
 ![Video-Summarize](media/VideoSummarization.png)
 
 ## Project 
-![Project](media/project.mp4)
+
+Check out the video demonstration here: [Watch Video](media/project.mp4)
 
 ## Requirements
 
