@@ -30,7 +30,10 @@
 
 ## Project 
 
-Check out the video demonstration here: [Watch Video](media/project.mp4)
+
+Here’s a demonstration video:
+
+[![Watch the video](https://via.placeholder.com/560x315.png?text=Play+Video)](media/project.mp4)
 
 ## Requirements
 
